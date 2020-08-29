@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,6 +11,8 @@ func SetupRouter() *gin.Engine {
 	// Disable Console Color
 	// gin.DisableConsoleColor()
 	router := gin.Default()
+
+	router.Use(static.Serve("/", static.LocalFile("./client/build", true)))
 
 	// Ping test
 	router.GET("/ping", func(c *gin.Context) {
