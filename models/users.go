@@ -19,7 +19,7 @@ func GetAllUser() (*[]User, error) {
 
 }
 
-func GetUser(id int) (*User, error) {
+func GetUser(id string) (*User, error) {
 	var user User
 	err := db.First(&user, id).Error
 	if err != nil {
@@ -36,7 +36,7 @@ func CreateUser(name string) error {
 	return nil
 }
 
-func UpdateUser(id int, name string) error {
+func UpdateUser(id string, name string) error {
 	err := db.Model(&User{}).Where("ID = ?", id).Update("Name", name).Error
 	if err != nil {
 		return err
@@ -44,7 +44,7 @@ func UpdateUser(id int, name string) error {
 	return nil
 }
 
-func DeleteUser(id int) error {
+func DeleteUser(id string) error {
 	err := db.Delete(&User{}, id).Error
 	if err != nil {
 		return err

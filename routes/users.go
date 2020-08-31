@@ -4,7 +4,6 @@ import (
 	"errors"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/DarylSerrano/gin-gonic-test/models"
 	"github.com/gin-gonic/gin"
@@ -26,17 +25,12 @@ func GetUsersEndpoint(c *gin.Context) {
 }
 
 func GetUserEndpoint(c *gin.Context) {
-	id, err := strconv.ParseInt(c.Param("id"), 10, 32)
+	id := c.Param("id")
 
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{})
-		return
-	}
-
-	user, err := models.GetUser(int(id))
+	user, err := models.GetUser(id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{})
+			c.JSON(http.StatusNotFound, gin.H{"error": "Not found"})
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{})
 		}
@@ -70,14 +64,9 @@ func PutUserEndpoint(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
 
-	id, err := strconv.ParseInt(c.Param("id"), 10, 32)
+	id := c.Param("id")
 
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{})
-		return
-	}
-
-	_, err = models.GetUser(int(id))
+	_, err := models.GetUser(id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			// Create user
@@ -89,7 +78,7 @@ func PutUserEndpoint(c *gin.Context) {
 		log.Println(err)
 	} else {
 		// Update user
-		err := models.UpdateUser(int(id), userInput.Name)
+		err := models.UpdateUser(id, userInput.Name)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{})
 		} else {
@@ -99,14 +88,9 @@ func PutUserEndpoint(c *gin.Context) {
 }
 
 func DeleteUserEndpoint(c *gin.Context) {
-	id, err := strconv.ParseInt(c.Param("id"), 10, 32)
+	id := c.Param("id")
 
-	if err != nil {
-		c.JSON(http.StatusNoContent, gin.H{})
-		return
-	}
-
-	err = models.DeleteUser(int(id))
+	err := models.DeleteUser(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		log.Println(err)

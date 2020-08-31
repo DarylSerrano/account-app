@@ -18,3 +18,6 @@ func InitDB() {
 	db = database
 	log.Println("Dabase initializated")
 }
+
+func SeedDB() {
+}
