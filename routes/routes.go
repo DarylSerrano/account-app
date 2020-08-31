@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 )
@@ -12,6 +13,7 @@ func SetupRouter() *gin.Engine {
 	// gin.DisableConsoleColor()
 	router := gin.Default()
 
+	// Client static folder serving
 	router.Use(static.Serve("/", static.LocalFile("./client/build", true)))
 
 	// Ping test
@@ -34,6 +36,9 @@ func SetupRouter() *gin.Engine {
 		usersRoute.DELETE("/:id", DeleteUserEndpoint)
 
 	}
+
+	// Cors
+	router.Use(cors.Default())
 
 	return router
 }

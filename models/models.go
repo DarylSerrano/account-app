@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -73,7 +72,7 @@ func seedDB() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Finish db seeding")
+	log.Println("Finish db seeding")
 }
 
 func fileExists(path string) bool {
