@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type CreateUserInput struct {
+type createUserInput struct {
 	Name string `json:"name" binding:"required"`
 }
 
@@ -18,7 +18,7 @@ func GetUsersEndpoint(c *gin.Context) {
 	users, err := models.GetAllUser()
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	} else {
 		c.JSON(http.StatusOK, gin.H{"data": users})
 	}
@@ -30,9 +30,9 @@ func GetUserEndpoint(c *gin.Context) {
 	user, err := models.GetUser(id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "Not found"})
+			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		} else {
-			c.JSON(http.StatusInternalServerError, gin.H{})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		}
 		log.Println(err)
 	} else {
@@ -41,7 +41,7 @@ func GetUserEndpoint(c *gin.Context) {
 }
 
 func PostUserEndpoint(c *gin.Context) {
-	var userInput CreateUserInput
+	var userInput createUserInput
 	err := c.ShouldBindJSON(&userInput)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -50,7 +50,7 @@ func PostUserEndpoint(c *gin.Context) {
 
 	err = models.CreateUser(userInput.Name)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		log.Println(err)
 		return
 	}
@@ -59,7 +59,7 @@ func PostUserEndpoint(c *gin.Context) {
 }
 
 func PutUserEndpoint(c *gin.Context) {
-	var userInput CreateUserInput
+	var userInput createUserInput
 	if err := c.ShouldBindJSON(&userInput); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
@@ -73,14 +73,14 @@ func PutUserEndpoint(c *gin.Context) {
 			models.CreateUser(userInput.Name)
 			c.JSON(http.StatusOK, gin.H{})
 		} else {
-			c.JSON(http.StatusInternalServerError, gin.H{})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		}
 		log.Println(err)
 	} else {
 		// Update user
 		err := models.UpdateUser(id, userInput.Name)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		} else {
 			c.JSON(http.StatusOK, gin.H{})
 		}
@@ -92,7 +92,11 @@ func DeleteUserEndpoint(c *gin.Context) {
 
 	err := models.DeleteUser(id)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{})
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNoContent, gin.H{"error": err.Error()})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		}
 		log.Println(err)
 		return
 	}

@@ -24,9 +24,15 @@ func SetupRouter() *gin.Engine {
 	{
 		usersRoute.GET("/", GetUsersEndpoint)
 		usersRoute.POST("/", PostUserEndpoint)
+
+		usersRoute.GET("/:id/connections", GetAllConnectionsEndpoint)
+		usersRoute.POST("/:id/connections", CreateConnectionEndpoint)
+		usersRoute.DELETE("/:id/connections", DeleteConnectionEndpoint)
+
 		usersRoute.GET("/:id", GetUserEndpoint)
 		usersRoute.PUT("/:id", PutUserEndpoint)
 		usersRoute.DELETE("/:id", DeleteUserEndpoint)
+
 	}
 
 	return router
