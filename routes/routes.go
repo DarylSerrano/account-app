@@ -13,6 +13,9 @@ func SetupRouter() *gin.Engine {
 	// gin.DisableConsoleColor()
 	router := gin.Default()
 
+	// Cors
+	router.Use(cors.Default())
+
 	// Client static folder serving
 	router.Use(static.Serve("/", static.LocalFile("./client/build", true)))
 
@@ -36,9 +39,6 @@ func SetupRouter() *gin.Engine {
 		usersRoute.DELETE("/:id", DeleteUserEndpoint)
 
 	}
-
-	// Cors
-	router.Use(cors.Default())
 
 	return router
 }

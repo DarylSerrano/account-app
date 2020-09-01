@@ -5,6 +5,8 @@ type FetchOptions = {
     body?: any
 }
 
+const BASE_URL = "http://127.0.0.1:8080/api";
+
 async function makeFetch<T>(url: string, options?: FetchOptions) {
   const response = await fetch(url, {...options});
 
@@ -17,4 +19,4 @@ async function makeFetch<T>(url: string, options?: FetchOptions) {
   return body;
 }
 
-export default { makeFetch };
+export default { makeFetch, BASE_URL };

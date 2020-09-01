@@ -7,9 +7,9 @@ export default function RootPage() {
 
   const fetchUsers = async () => {
     let response = await fetcher.makeFetch<ResponseOk<User[]>>(
-      "http://localhost:8080/api/users/"
+      `${fetcher.BASE_URL}/users/`
     );
-    console.log("Fetch users")
+    console.log("Fetch users");
     setusers(response.data);
   };
 
@@ -20,6 +20,7 @@ export default function RootPage() {
   return (
     <div>
       <h1>Root page</h1>
+
       <p>{JSON.stringify(users)}</p>
     </div>
   );
