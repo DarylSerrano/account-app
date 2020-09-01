@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router";
-import { Descriptions, Button } from "antd";
+import { Descriptions, Button, Divider } from "antd";
 import { User, ResponseOk } from "../interfaces/api";
 import fetcher from "../service/fetcher";
 import AppLayout from "../components/AppLayout";
@@ -9,6 +9,7 @@ import ConnectionGraph, {
   Node,
   Edge,
 } from "../components/ConnectionGraph";
+import "./user.css";
 
 type UserPageParams = { id: string };
 
@@ -46,16 +47,33 @@ export default function UserPage() {
   }, []);
 
   const convertGraphData = (user: User): GraphData => {
+    const radius = 200;
+    const centerX = 0;
+    const centerY = 0;
+
     const fromNode: Node = {
       id: user.id,
       title: user.name,
       type: "empty",
+      x: centerX,
+      y: centerY,
     };
 
     const edges: Edge[] = [];
     const nodes: Node[] = [];
-    user.connections?.forEach((toUser) => {
-      nodes.push({ id: toUser.id, title: toUser.name, type: "empty" });
+    const connectedUsersLength = user.connections ? user.connections.length : 0;
+    user.connections?.forEach((toUser, index) => {
+      nodes.push({
+        id: toUser.id,
+        title: toUser.name,
+        type: "empty",
+        x:
+          centerX +
+          radius * Math.cos((2 * Math.PI * index) / connectedUsersLength),
+        y:
+          centerY +
+          radius * Math.sin((2 * Math.PI * index) / connectedUsersLength),
+      });
       edges.push({ source: toUser.id, target: fromNode.id, type: "emptyEdge" });
     });
 
@@ -65,8 +83,8 @@ export default function UserPage() {
   return (
     <AppLayout title="User information">
       <p>{errorMsg}</p>
-      <div>
-        {user ? (
+      {user ? (
+        <>
           <Descriptions
             bordered
             layout="vertical"
@@ -94,18 +112,25 @@ export default function UserPage() {
             }
           >
             <Descriptions.Item label="Name">{user.name}</Descriptions.Item>
+          </Descriptions>
+          <Divider />
+          <Descriptions bordered layout="vertical">
             <Descriptions.Item label="Connections">
-              {user.connections ? (
-                <ConnectionGraph
-                  data={convertGraphData(user)}
-                ></ConnectionGraph>
-              ) : (
-                <p>No connections</p>
-              )}
+              <div
+                className={user.connections ? "digraphfull" : "digraphempty"}
+              >
+                {user.connections ? (
+                  <ConnectionGraph
+                    data={convertGraphData(user)}
+                  ></ConnectionGraph>
+                ) : (
+                  <p>No connections</p>
+                )}
+              </div>
             </Descriptions.Item>
           </Descriptions>
-        ) : null}
-      </div>
+        </>
+      ) : null}
     </AppLayout>
   );
 }
