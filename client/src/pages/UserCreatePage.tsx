@@ -4,6 +4,7 @@ import fetcher from "../service/fetcher";
 import { ResponseOk } from "../interfaces/api";
 import { useHistory } from "react-router";
 import AppLayout from "../components/AppLayout";
+import { notification } from "antd";
 
 export default function UserCreatePage() {
   const [errMsg, setErrMsg] = useState("");
@@ -20,7 +21,8 @@ export default function UserCreatePage() {
 
       history.push("/");
     } catch (err) {
-      setErrMsg(JSON.stringify(err));
+      notification.error({message: err.message})
+      setErrMsg(err.message);
     }
   };
 

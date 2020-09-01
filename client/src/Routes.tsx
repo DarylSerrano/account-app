@@ -6,6 +6,7 @@ import UserCreatePage from "./pages/UserCreatePage";
 import ConnectionCreatePage from "./pages/ConnectionCreatePage";
 import UserEditPage from "./pages/UserEditPage";
 import ConnectionDeletePage from "./pages/ConnectionDeletePage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 export default function Routes() {
   return (
@@ -24,6 +25,7 @@ export default function Routes() {
         <Route path="/users/:id" component={UserPage}></Route>
 
         <Route exact path="/" component={RootPage}></Route>
+        <Route component={NotFoundPage} />
       </Switch>
     </BrowserRouter>
   );

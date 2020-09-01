@@ -6,6 +6,7 @@ import AppLayout from "../components/AppLayout";
 import DeleteConnectionForm, {
   FormValues,
 } from "../components/DeleteConnectionForm";
+import { notification } from "antd";
 
 type ConnectionEditPageParams = {
   id: string;
@@ -24,7 +25,8 @@ export default function ConnectionDeletePage() {
       );
       setUser(response.data);
     } catch (err) {
-      setErrorMsg(JSON.stringify(err));
+      notification.error({message: err.message})
+      setErrorMsg(err.message);
     }
   };
 
@@ -39,7 +41,8 @@ export default function ConnectionDeletePage() {
 
       history.push(`/users/${id}`);
     } catch (err) {
-      setErrorMsg(JSON.stringify(err));
+      notification.error({message: err.message})
+      setErrorMsg(err.message);
     }
   };
 

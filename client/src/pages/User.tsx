@@ -10,6 +10,7 @@ import ConnectionGraph, {
   Edge,
 } from "../components/ConnectionGraph";
 import "./user.css";
+import { notification } from "antd";
 
 type UserPageParams = { id: string };
 
@@ -26,7 +27,8 @@ export default function UserPage() {
       );
       setUser(response.data);
     } catch (err) {
-      setErrorMsg(JSON.stringify(err));
+      notification.error({message: err.message})
+      setErrorMsg(err.message);
     }
   };
 
@@ -38,7 +40,8 @@ export default function UserPage() {
       );
       history.push("/");
     } catch (err) {
-      setErrorMsg(JSON.stringify(err));
+      notification.error({message: err.message})
+      setErrorMsg(err.message);
     }
   };
 

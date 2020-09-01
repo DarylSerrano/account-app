@@ -4,6 +4,7 @@ import fetcher from "../service/fetcher";
 import { ResponseOk, User } from "../interfaces/api";
 import { useHistory, useParams } from "react-router";
 import AppLayout from "../components/AppLayout";
+import { notification } from "antd";
 
 type UserEditPageParams = { id: string };
 
@@ -27,7 +28,8 @@ export default function UserEditPage() {
 
       history.push(`/users/${id}`);
     } catch (err) {
-      setErrMsg(JSON.stringify(err));
+      notification.error({message: err.message})
+      setErrMsg(err.message);
     }
   };
 
@@ -38,7 +40,8 @@ export default function UserEditPage() {
       );
       setUser(response.data);
     } catch (err) {
-      setErrMsg(JSON.stringify(err));
+      notification.error({message: err.message})
+      setErrMsg(err.message);
     }
   };
 

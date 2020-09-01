@@ -4,6 +4,7 @@ import { ResponseOk, User } from "../interfaces/api";
 import fetcher from "../service/fetcher";
 import AppLayout from "../components/AppLayout";
 import ConnectionForm, { FormValues } from "../components/ConnectionForm";
+import { notification } from "antd";
 
 type ConnectionCreatePageParams = {
   id: string;
@@ -22,7 +23,8 @@ export default function ConnectionCreatePage() {
       );
       setUser(response.data);
     } catch (err) {
-      setErrorMsg(JSON.stringify(err));
+      notification.error({message: err.message})
+      setErrorMsg(err.message);
     }
   };
 
@@ -35,7 +37,8 @@ export default function ConnectionCreatePage() {
 
       history.push(`/users/${id}`);
     } catch (err) {
-      setErrorMsg(JSON.stringify(err));
+      notification.error({message: err.message})
+      setErrorMsg(err.message);
     }
   };
 

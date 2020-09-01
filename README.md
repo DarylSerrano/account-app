@@ -1,8 +1,8 @@
 # User connections
 ## Requirements
-* Nodejs
+* Nodejs >=v12.13.0
 * yarn
-* golang
+* go 1.15
 
 ## Deployment instructions
 * Linux
@@ -10,11 +10,19 @@
 $ ./build.sh
 $ ./gin-gonic-test
 ```
-* Windows
+
+
+* Windows (since [yarn quits after the command install on a bat script](https://github.com/yarnpkg/yarn/issues/2809) the process is a little bit different from linux build)
 ```powershell
-.\build.bat
+cd client
+yarn install
+yarn build
+cd ..
+go build
 .\gin-gonic-test.exe
 ```
+
+
 Then visit `http://localhost:8080`
 
 ## Development

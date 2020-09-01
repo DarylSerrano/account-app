@@ -40,5 +40,9 @@ func SetupRouter() *gin.Engine {
 
 	}
 
+	router.NoRoute(func(c *gin.Context) {
+		c.File("./client/build/index.html")
+	})
+
 	return router
 }
