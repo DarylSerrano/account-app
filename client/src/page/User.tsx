@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { User, ResponseOk } from "../interfaces/api";
 import fetcher from "../service/fetcher";
+import AppLayout from "../components/AppLayout";
 
 type UserPageParams = { id: string };
 
@@ -26,8 +27,7 @@ export default function UserPage() {
   }, []);
 
   return (
-    <div>
-      <h1>User page</h1>
+    <AppLayout title="User information">
       <p>{errorMsg}</p>
       <div>
         {user ? (
@@ -38,6 +38,6 @@ export default function UserPage() {
           </div>
         ) : null}
       </div>
-    </div>
+    </AppLayout>
   );
 }

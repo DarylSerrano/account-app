@@ -3,6 +3,7 @@ import { List } from "antd";
 import { User, ResponseOk } from "../interfaces/api";
 import fetcher from "../service/fetcher";
 import { Link } from "react-router-dom";
+import AppLayout from "../components/AppLayout";
 
 export default function RootPage() {
   const [users, setusers] = useState<User[]>([]);
@@ -20,8 +21,7 @@ export default function RootPage() {
   }, []);
 
   return (
-    <div>
-      <h1>Root page</h1>
+    <AppLayout title="Users connection">
       <List
         itemLayout="horizontal"
         dataSource={users}
@@ -34,6 +34,6 @@ export default function RootPage() {
           </List.Item>
         )}
       />
-    </div>
+    </AppLayout>
   );
 }

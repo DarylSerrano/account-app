@@ -3,6 +3,7 @@ import UserForm, { FormValues } from "../components/UserForm";
 import fetcher from "../service/fetcher";
 import { ResponseOk } from "../interfaces/api";
 import { useHistory } from "react-router";
+import AppLayout from "../components/AppLayout";
 
 export default function UserCreatePage() {
   const [errMsg, setErrMsg] = useState("");
@@ -24,12 +25,11 @@ export default function UserCreatePage() {
   };
 
   return (
-    <div>
-      <h1>Create user</h1>
+    <AppLayout title="Create user">
       <p>{errMsg}</p>
       <div>
         <UserForm onSubmit={onSubmit} />
       </div>
-    </div>
+    </AppLayout>
   );
 }
