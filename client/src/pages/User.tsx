@@ -38,7 +38,9 @@ export default function UserPage() {
             layout="vertical"
             extra={
               <div>
-                <Button>Edit</Button>
+                <Button onClick={() => history.push(`/users/${id}/edit`)}>
+                  Edit
+                </Button>
                 <Button
                   onClick={() => history.push(`/users/${id}/connection/create`)}
                 >

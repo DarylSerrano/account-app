@@ -7,9 +7,13 @@ export type FormValues = {
 
 type UserFormProps = {
   onSubmit: (values: FormValues) => void;
+  value?: FormValues;
 };
 
-export default function UserForm({ onSubmit }: UserFormProps) {
+export default function UserForm({
+  onSubmit,
+  value = { name: "" },
+}: UserFormProps) {
   const [form] = Form.useForm();
 
   const onFinish = (values: FormValues) => {
@@ -24,7 +28,7 @@ export default function UserForm({ onSubmit }: UserFormProps) {
 
   return (
     <div>
-      <Form form={form} onFinish={onFinish}>
+      <Form initialValues={{ ...value }} form={form} onFinish={onFinish}>
         <Form.Item name="name" label="Name" rules={[{ required: true }]}>
           <Input />
         </Form.Item>

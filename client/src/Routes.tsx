@@ -4,6 +4,7 @@ import RootPage from "./pages/Root";
 import UserPage from "./pages/User";
 import UserCreatePage from "./pages/UserCreatePage";
 import ConnectionCreatePage from "./pages/ConnectionCreatePage";
+import UserEditPage from "./pages/UserEditPage";
 
 export default function Routes() {
   return (
@@ -14,6 +15,7 @@ export default function Routes() {
           path="/users/:id/connection/create"
           component={ConnectionCreatePage}
         ></Route>
+        <Route path="/users/:id/edit" component={UserEditPage}></Route>
         <Route path="/users/:id" component={UserPage}></Route>
 
         <Route exact path="/" component={RootPage}></Route>
