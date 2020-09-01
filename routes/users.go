@@ -45,6 +45,7 @@ func PostUserEndpoint(c *gin.Context) {
 	err := c.ShouldBindJSON(&userInput)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		log.Println(err)
 		return
 	}
 

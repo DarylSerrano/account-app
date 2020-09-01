@@ -2,7 +2,7 @@ import fetch from "cross-fetch";
 
 type FetchOptions = {
     method?: 'POST' | 'GET' | 'PUT' | 'DELETE'
-    body?: any
+    body?: any,
 }
 
 const BASE_URL = "http://127.0.0.1:8080/api";
