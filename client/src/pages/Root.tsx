@@ -3,9 +3,11 @@ import { List } from "antd";
 import { User, ResponseOk } from "../interfaces/api";
 import fetcher from "../service/fetcher";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 import AppLayout from "../components/AppLayout";
 
 export default function RootPage() {
+  const history = useHistory();
   const [users, setusers] = useState<User[]>([]);
 
   const fetchUsers = async () => {
@@ -24,12 +26,13 @@ export default function RootPage() {
     <AppLayout title="Users connection">
       <List
         itemLayout="horizontal"
+        bordered
+        style={{ textAlign: "center" }}
         dataSource={users}
         renderItem={(user) => (
-          <List.Item>
+          <List.Item onClick={() => history.push(`/users/${user.id}`)}>
             <List.Item.Meta
-              title={user.name}
-              description={<Link to={`/users/${user.id}`}>{user.name}</Link>}
+              title={<Link to={`/users/${user.id}`}>{user.name}</Link>}
             ></List.Item.Meta>
           </List.Item>
         )}
