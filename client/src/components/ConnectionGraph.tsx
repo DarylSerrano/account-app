@@ -51,38 +51,6 @@ const GraphConfig = {
 
 const NODE_KEY = "id";
 
-const data = {
-  nodes: [
-    {
-      id: 1,
-      title: "Node A",
-      type: "empty",
-    },
-    {
-      id: 2,
-      title: "Node B",
-      type: "empty",
-    },
-    {
-      id: 4,
-      title: "Node C",
-      type: "empty",
-    },
-  ],
-  edges: [
-    {
-      source: 1,
-      target: 2,
-      type: "emptyEdge",
-    },
-    {
-      source: 2,
-      target: 4,
-      type: "emptyEdge",
-    },
-  ],
-};
-
 export default function ConnectionGraph({ data }: ConnectionGraphProps) {
   const NodeTypes = GraphConfig.NodeTypes;
   const NodeSubtypes = GraphConfig.NodeSubtypes;
