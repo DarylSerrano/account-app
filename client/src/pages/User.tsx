@@ -4,6 +4,11 @@ import { Descriptions, Button } from "antd";
 import { User, ResponseOk } from "../interfaces/api";
 import fetcher from "../service/fetcher";
 import AppLayout from "../components/AppLayout";
+import ConnectionGraph, {
+  GraphData,
+  Node,
+  Edge,
+} from "../components/ConnectionGraph";
 
 type UserPageParams = { id: string };
 
@@ -24,9 +29,38 @@ export default function UserPage() {
     }
   };
 
+  const onDelete = async () => {
+    try {
+      await fetcher.makeFetch<ResponseOk<{}>>(
+        `${fetcher.BASE_URL}/users/${id}`,
+        { method: "DELETE" }
+      );
+      history.push("/");
+    } catch (err) {
+      setErrorMsg(JSON.stringify(err));
+    }
+  };
+
   useEffect(() => {
     fetchUser();
   }, []);
+
+  const convertGraphData = (user: User): GraphData => {
+    const fromNode: Node = {
+      id: user.id,
+      title: user.name,
+      type: "empty",
+    };
+
+    const edges: Edge[] = [];
+    const nodes: Node[] = [];
+    user.connections?.forEach((toUser) => {
+      nodes.push({ id: toUser.id, title: toUser.name, type: "empty" });
+      edges.push({ source: toUser.id, target: fromNode.id, type: "emptyEdge" });
+    });
+
+    return { Edges: edges, Nodes: nodes.concat(fromNode) };
+  };
 
   return (
     <AppLayout title="User information">
@@ -39,8 +73,9 @@ export default function UserPage() {
             extra={
               <div>
                 <Button onClick={() => history.push(`/users/${id}/edit`)}>
-                  Edit
+                  Edit User
                 </Button>
+                <Button onClick={onDelete}>Delete User</Button>
                 <Button
                   onClick={() =>
                     history.push(`/users/${id}/connections/create`)
@@ -60,7 +95,13 @@ export default function UserPage() {
           >
             <Descriptions.Item label="Name">{user.name}</Descriptions.Item>
             <Descriptions.Item label="Connections">
-              {JSON.stringify(user.connections)}
+              {user.connections ? (
+                <ConnectionGraph
+                  data={convertGraphData(user)}
+                ></ConnectionGraph>
+              ) : (
+                <p>No connections</p>
+              )}
             </Descriptions.Item>
           </Descriptions>
         ) : null}
