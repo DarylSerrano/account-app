@@ -42,9 +42,18 @@ export default function UserPage() {
                   Edit
                 </Button>
                 <Button
-                  onClick={() => history.push(`/users/${id}/connection/create`)}
+                  onClick={() =>
+                    history.push(`/users/${id}/connections/create`)
+                  }
                 >
                   Add connections
+                </Button>
+                <Button
+                  onClick={() =>
+                    history.push(`/users/${id}/connections/delete`)
+                  }
+                >
+                  Delete connections
                 </Button>
               </div>
             }

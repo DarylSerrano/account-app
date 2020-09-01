@@ -47,7 +47,7 @@ export default function UserEditPage() {
   }, []);
 
   return (
-    <AppLayout title="Create user">
+    <AppLayout title="Edit user">
       <p>{errMsg}</p>
       <div>
         {errMsg === "" && user ? (
