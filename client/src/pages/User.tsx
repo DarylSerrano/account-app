@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
+import { Descriptions, Button } from "antd";
 import { User, ResponseOk } from "../interfaces/api";
 import fetcher from "../service/fetcher";
 import AppLayout from "../components/AppLayout";
@@ -7,6 +8,7 @@ import AppLayout from "../components/AppLayout";
 type UserPageParams = { id: string };
 
 export default function UserPage() {
+  const history = useHistory();
   const { id } = useParams<UserPageParams>();
   const [user, setUser] = useState<User | undefined>(undefined);
   const [errorMsg, setErrorMsg] = useState("");
@@ -31,11 +33,25 @@ export default function UserPage() {
       <p>{errorMsg}</p>
       <div>
         {user ? (
-          <div>
-            <p>Name: {user.name}</p>
-            <p>Id: {user.id}</p>
-            <p>Connections: {JSON.stringify(user.connections)}</p>
-          </div>
+          <Descriptions
+            bordered
+            layout="vertical"
+            extra={
+              <div>
+                <Button>Edit</Button>
+                <Button
+                  onClick={() => history.push(`/users/${id}/connection/create`)}
+                >
+                  Add connections
+                </Button>
+              </div>
+            }
+          >
+            <Descriptions.Item label="Name">{user.name}</Descriptions.Item>
+            <Descriptions.Item label="Connections">
+              {JSON.stringify(user.connections)}
+            </Descriptions.Item>
+          </Descriptions>
         ) : null}
       </div>
     </AppLayout>

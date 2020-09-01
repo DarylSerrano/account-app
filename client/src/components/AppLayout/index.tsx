@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Card } from "antd";
 
 import "./appLayout.css";
 
@@ -25,7 +25,11 @@ export default function AppLayout({ children, title }: AppLayoutProps) {
         </Menu>
       </Header>
       <Content style={{ padding: "0 50px", margin: "16px 0" }}>
-        <div className="site-layout-content">{children}</div>
+        <div className="site-layout-content">
+          <Card title={title} bordered={false}>
+            {children}
+          </Card>
+        </div>
       </Content>
       <Footer style={{ textAlign: "center" }}>
         Daryl Serrano Hipolito ©{new Date().getFullYear()}
