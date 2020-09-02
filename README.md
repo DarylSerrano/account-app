@@ -2,7 +2,7 @@
 
 ## Requirements
 * Nodejs >=v12.13.0
-* yarn
+* yarn >= 1.21.1
 * go 1.15
 
 ## Deployment instructions
