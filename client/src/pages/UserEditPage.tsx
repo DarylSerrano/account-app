@@ -4,7 +4,7 @@ import fetcher from "../service/fetcher";
 import { ResponseOk, User } from "../interfaces/api";
 import { useHistory, useParams } from "react-router";
 import AppLayout from "../components/AppLayout";
-import { notification } from "antd";
+import { notification, Descriptions, Button } from "antd";
 
 type UserEditPageParams = { id: string };
 
@@ -28,7 +28,7 @@ export default function UserEditPage() {
 
       history.push(`/users/${id}`);
     } catch (err) {
-      notification.error({message: err.message})
+      notification.error({ message: err.message });
       setErrMsg(err.message);
     }
   };
@@ -40,7 +40,7 @@ export default function UserEditPage() {
       );
       setUser(response.data);
     } catch (err) {
-      notification.error({message: err.message})
+      notification.error({ message: err.message });
       setErrMsg(err.message);
     }
   };
@@ -51,12 +51,23 @@ export default function UserEditPage() {
 
   return (
     <AppLayout title="Edit user">
-      <p>{errMsg}</p>
-      <div>
-        {errMsg === "" && user ? (
-          <UserForm onSubmit={onSubmit} value={{ name: user.name }} />
-        ) : null}
-      </div>
+      <Descriptions
+        layout="horizontal"
+        extra={
+          <div>
+            <Button onClick={() => history.goBack()}>Go back</Button>
+          </div>
+        }
+      >
+        <Descriptions.Item>
+          <p>{errMsg}</p>
+          <div>
+            {errMsg === "" && user ? (
+              <UserForm onSubmit={onSubmit} value={{ name: user.name }} />
+            ) : null}
+          </div>
+        </Descriptions.Item>
+      </Descriptions>
     </AppLayout>
   );
 }

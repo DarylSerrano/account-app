@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/DarylSerrano/gin-gonic-test/models"
-	"github.com/DarylSerrano/gin-gonic-test/routes"
+	"github.com/DarylSerrano/account-app/models"
+	"github.com/DarylSerrano/account-app/routes"
 )
 
 func main() {

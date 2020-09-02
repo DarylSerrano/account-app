@@ -1,4 +1,4 @@
-module github.com/DarylSerrano/gin-gonic-test
+module github.com/DarylSerrano/account-app
 
 go 1.15
 

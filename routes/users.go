@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/DarylSerrano/gin-gonic-test/models"
+	"github.com/DarylSerrano/account-app/models"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router";
-import { Descriptions, Button, Divider } from "antd";
+import { Descriptions, Button, Divider, Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { User, ResponseOk } from "../interfaces/api";
 import fetcher from "../service/fetcher";
 import AppLayout from "../components/AppLayout";
@@ -11,6 +12,8 @@ import ConnectionGraph, {
 } from "../components/ConnectionGraph";
 import "./user.css";
 import { notification } from "antd";
+
+const { confirm } = Modal;
 
 type UserPageParams = { id: string };
 
@@ -27,7 +30,7 @@ export default function UserPage() {
       );
       setUser(response.data);
     } catch (err) {
-      notification.error({message: err.message})
+      notification.error({ message: err.message });
       setErrorMsg(err.message);
     }
   };
@@ -40,9 +43,23 @@ export default function UserPage() {
       );
       history.push("/");
     } catch (err) {
-      notification.error({message: err.message})
+      notification.error({ message: err.message });
       setErrorMsg(err.message);
     }
+  };
+
+  const showDeleteConfirm = () => {
+    confirm({
+      title: `Are you sure you want to delete ${user?.name}`,
+      icon: <ExclamationCircleOutlined />,
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        return onDelete();
+      },
+      onCancel() {},
+    });
   };
 
   useEffect(() => {
@@ -96,7 +113,7 @@ export default function UserPage() {
                 <Button onClick={() => history.push(`/users/${id}/edit`)}>
                   Edit User
                 </Button>
-                <Button onClick={onDelete}>Delete User</Button>
+                <Button onClick={showDeleteConfirm}>Delete User</Button>
                 <Button
                   onClick={() =>
                     history.push(`/users/${id}/connections/create`)

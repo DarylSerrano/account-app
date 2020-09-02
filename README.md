@@ -1,4 +1,5 @@
-# User connections
+# User connections app
+
 ## Requirements
 * Nodejs >=v12.13.0
 * yarn
@@ -8,7 +9,7 @@
 * Linux
 ```bash
 $ ./build.sh
-$ ./gin-gonic-test
+$ ./account-app
 ```
 
 
@@ -19,7 +20,7 @@ yarn install
 yarn build
 cd ..
 go build
-.\gin-gonic-test.exe
+.\account-app.exe
 ```
 
 

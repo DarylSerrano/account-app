@@ -6,7 +6,7 @@ import AppLayout from "../components/AppLayout";
 import DeleteConnectionForm, {
   FormValues,
 } from "../components/DeleteConnectionForm";
-import { notification } from "antd";
+import { notification, Button, Descriptions } from "antd";
 
 type ConnectionEditPageParams = {
   id: string;
@@ -25,7 +25,7 @@ export default function ConnectionDeletePage() {
       );
       setUser(response.data);
     } catch (err) {
-      notification.error({message: err.message})
+      notification.error({ message: err.message });
       setErrorMsg(err.message);
     }
   };
@@ -41,7 +41,7 @@ export default function ConnectionDeletePage() {
 
       history.push(`/users/${id}`);
     } catch (err) {
-      notification.error({message: err.message})
+      notification.error({ message: err.message });
       setErrorMsg(err.message);
     }
   };
@@ -52,15 +52,27 @@ export default function ConnectionDeletePage() {
 
   return (
     <AppLayout title="Create connection for user">
-      <p>{errorMsg}</p>
-      <div>
-        <p>
-          Delete connections from user: {user?.id} {user?.name}
-        </p>
-        {user ? (
-          <DeleteConnectionForm userFrom={user} onSubmit={deleteConnection} />
-        ) : null}
-      </div>
+      <Descriptions
+        layout="horizontal"
+        extra={
+          <div>
+            <Button onClick={() => history.goBack()}>Go back</Button>
+          </div>
+        }
+      >
+        <Descriptions.Item>
+          <p>{errorMsg}</p>
+          <div>
+            <p>Delete connections from user: {user?.name}</p>
+            {user ? (
+              <DeleteConnectionForm
+                userFrom={user}
+                onSubmit={deleteConnection}
+              />
+            ) : null}
+          </div>
+        </Descriptions.Item>
+      </Descriptions>
     </AppLayout>
   );
 }

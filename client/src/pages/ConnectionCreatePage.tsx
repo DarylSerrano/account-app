@@ -4,7 +4,7 @@ import { ResponseOk, User } from "../interfaces/api";
 import fetcher from "../service/fetcher";
 import AppLayout from "../components/AppLayout";
 import ConnectionForm, { FormValues } from "../components/ConnectionForm";
-import { notification } from "antd";
+import { notification, Descriptions, Button } from "antd";
 
 type ConnectionCreatePageParams = {
   id: string;
@@ -23,7 +23,7 @@ export default function ConnectionCreatePage() {
       );
       setUser(response.data);
     } catch (err) {
-      notification.error({message: err.message})
+      notification.error({ message: err.message });
       setErrorMsg(err.message);
     }
   };
@@ -37,7 +37,7 @@ export default function ConnectionCreatePage() {
 
       history.push(`/users/${id}`);
     } catch (err) {
-      notification.error({message: err.message})
+      notification.error({ message: err.message });
       setErrorMsg(err.message);
     }
   };
@@ -48,13 +48,22 @@ export default function ConnectionCreatePage() {
 
   return (
     <AppLayout title="Create connection for user">
-      <p>{errorMsg}</p>
-      <div>
-        <p>
-          Connect user: {user?.id} {user?.name}
-        </p>
-        <ConnectionForm idFrom={Number(id)} onSubmit={createConnection} />
-      </div>
+      <Descriptions
+        layout="horizontal"
+        extra={
+          <div>
+            <Button onClick={() => history.goBack()}>Go back</Button>
+          </div>
+        }
+      >
+        <Descriptions.Item>
+          <p>{errorMsg}</p>
+          <div>
+            <p>Connect user: {user?.name}</p>
+            <ConnectionForm idFrom={Number(id)} onSubmit={createConnection} />
+          </div>
+        </Descriptions.Item>
+      </Descriptions>
     </AppLayout>
   );
 }

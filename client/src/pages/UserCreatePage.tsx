@@ -4,7 +4,7 @@ import fetcher from "../service/fetcher";
 import { ResponseOk } from "../interfaces/api";
 import { useHistory } from "react-router";
 import AppLayout from "../components/AppLayout";
-import { notification } from "antd";
+import { notification, Descriptions, Button } from "antd";
 
 export default function UserCreatePage() {
   const [errMsg, setErrMsg] = useState("");
@@ -21,17 +21,28 @@ export default function UserCreatePage() {
 
       history.push("/");
     } catch (err) {
-      notification.error({message: err.message})
+      notification.error({ message: err.message });
       setErrMsg(err.message);
     }
   };
 
   return (
     <AppLayout title="Create user">
-      <p>{errMsg}</p>
-      <div>
-        <UserForm onSubmit={onSubmit} />
-      </div>
+      <Descriptions
+        layout="horizontal"
+        extra={
+          <div>
+            <Button onClick={() => history.goBack()}>Go back</Button>
+          </div>
+        }
+      >
+        <Descriptions.Item>
+          <p>{errMsg}</p>
+          <div>
+            <UserForm onSubmit={onSubmit} />
+          </div>
+        </Descriptions.Item>
+      </Descriptions>
     </AppLayout>
   );
 }
